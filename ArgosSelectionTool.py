@@ -17,11 +17,19 @@ the_box = {
     'y_max' : -75.00
 }
 
-# Copy and paste a line of data as the lineString variable value
-lineString = '10154641233,true,2019-05-14 13:47:50.000,-75.49889000000002,34.79934,,0.0,-118.0,4.0167974338E8,3528.0,202,"46",34.79934,34.79934,"0",-75.49889000000002,-75.49889000000002,7,1,3,75.0,490.0,6099.0,2040.0,147,197,1,0,"1",,,"argos-doppler-shift","Pterodroma hasitata","174441","HA09","Satellite tracking of black-capped petrels, 2019"'
-    
+#Create a variable pointing to the data file
+file_name = 'data/raw/MoveBank/Satellite tracking of black-capped petrels 2019-argos.csv'
+
+#Read the contents of the file into a list of lines
+with open(file_name,'r') as f:
+    #Read contents of file into a list
+	line_list = f.readlines()
+
+#Pretend we read one line of data from the file
+lineString = line_list[201]
+
 # Use the split command to parse the items in lineString into a list object
-line_data = lineString.split(",")
+line_data = lineString.split(',')
   
 # Assign variables to specfic items in the list
 event_id = line_data[0]   # Argos tracking event ID ("event-id")
@@ -29,8 +37,8 @@ timestamp = line_data[2]  # Observation date ("timestamp")
 lat = float(line_data[4])        # Observation latitude  ("location-lat")
 lon = float(line_data[3])        # Observation longitude ("location-lon")
 lc  = line_data[14]        # Observation location class ("argos:lc")
-tag_id = line_data[34]     # Tag identifier ("tag-local-identifier")
-
+tag_id = line_data[-3]     # Tag identifier ("tag-local-identifier")
+  
 #Evaluate latitude and longitude conditions
 lat_condition = the_box['y_min'] < lat < the_box['y_max']
 lon_condition = the_box['x_min'] < lon < the_box['x_max']
